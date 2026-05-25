@@ -1,6 +1,6 @@
 const app = document.querySelector("#app");
 const STORAGE_PREFIX = "nagyGyakorlo:";
-const SAVE_VERSION = "2026-05-25-v8";
+const SAVE_VERSION = "2026-05-25-v9";
 let state = null;
 let orderPointer = null;
 
@@ -60,15 +60,14 @@ function topbar(title = "Nagy gyakorló", subtitle = "PDF alapján készült tes
 
 function getAbbreviationQuestions() {
   return ABBREVIATIONS.map(([abbr, meaning, hu], index) => {
-    const displayMeaning = hu ? `${meaning} (${hu})` : meaning;
     const wrong = getAbbreviationDistractors(abbr, meaning, index);
     return {
       topic: "Rövidítések",
       type: "single",
       question: `Mit jelent ez a rövidítés: ${abbr}?`,
-      answers: shuffle([displayMeaning, ...wrong.slice(0, 3)]),
-      correctText: displayMeaning,
-      explanation: `${abbr} = ${displayMeaning}`
+      answers: shuffle([meaning, ...wrong.slice(0, 3)]),
+      correctText: meaning,
+      explanation: hu ? `${abbr} = ${meaning} (${hu})` : `${abbr} = ${meaning}`
     };
   }).map((q) => ({ ...q, correct: [q.answers.indexOf(q.correctText)] }));
 }
